@@ -1,6 +1,7 @@
 import { BrowserWindow, app, Menu, Tray } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import { AppConst } from './const.js'
+import { showAlert } from './notification.js'
 import path from 'path'
 
 const createWindow = async (isDevelopment) => {
@@ -12,7 +13,8 @@ const createWindow = async (isDevelopment) => {
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
             preload: path.join(__dirname, 'preload.js')
-        }
+        },
+        icon: 'public/icon.png'
     })
 
     if (isDevelopment && process.env.WEBPACK_DEV_SERVER_URL) {
@@ -27,10 +29,12 @@ const createWindow = async (isDevelopment) => {
         if (!app.isQuiting) {
             event.preventDefault()
             win.hide()
+
+            showAlert({ title: '알림', body: '앱이 아직 완전히 종료되지 않았어요.' })
         }
     })
 
-    // 메인 창이 닫혔을 때의 이벤트 처리
+    // 메인 창이 완전히 종료될 때
     win.on('closed', () => {
         win = null
     })

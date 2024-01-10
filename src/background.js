@@ -38,19 +38,19 @@ const appEventListen = () => {
     })
 
     app.on('before-quit', () => (app.isQuiting = true))
-}
 
-if (isDevelopment) {
-    if (process.platform === 'win32') {
-        process.on('message', (data) => {
-            if (data === 'graceful-exit') {
+    if (isDevelopment) {
+        if (process.platform === 'win32') {
+            process.on('message', (data) => {
+                if (data === 'graceful-exit') {
+                    app.quit()
+                }
+            })
+        } else {
+            process.on('SIGTERM', () => {
                 app.quit()
-            }
-        })
-    } else {
-        process.on('SIGTERM', () => {
-            app.quit()
-        })
+            })
+        }
     }
 }
 

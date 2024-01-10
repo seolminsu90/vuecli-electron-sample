@@ -9,7 +9,7 @@ const ipcEventListen = () => {
         // Login 성공 시 MainApp에서 소켓 연결
         // 유저 처리 및 소켓 연결
         await init()
-        send('Login success.', 'Welcome.')
+        send('로그인 성공', '반갑습니다.')
 
         // (optional) CALLBACK to replyLoginSuccess
         evt.reply('replyLoginSuccess', 'YOUR_SUCCESS_CALLBACK_DATA')
