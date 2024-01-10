@@ -2,9 +2,14 @@ import path from 'path'
 import { app } from 'electron'
 import fs from 'fs'
 
+let initialized = false
 let sharedData = {}
-const getSharedData = () => {
-    if (!isEmpty()) return sharedData
+
+const initialize = () => {
+    if (initialized) return true
+
+    console.log('[info] file data initialize')
+    initialized = true
     try {
         const filePath = path.join(app.getPath('userData'), 'sharedData.json')
 
@@ -13,8 +18,9 @@ const getSharedData = () => {
             sharedData = JSON.parse(fileData)
         }
     } catch (e) {
+        return false
     } finally {
-        return sharedData
+        return true
     }
 }
 
@@ -34,12 +40,10 @@ const saveSharedData = (key, value, flush = true) => {
     }
 }
 
-const isEmpty = () => {
-    return Object.keys(sharedData).length === 0
-}
+const getSharedData = () => sharedData
+const isEmpty = () => Object.keys(sharedData).length === 0
+const resetSharedData = () => saveSharedData(null)
 
-const resetSharedData = () => {
-    saveSharedData(null)
-}
+initialize()
 
-export { getSharedData, saveSharedData, resetSharedData }
+export { getSharedData, saveSharedData, resetSharedData, isEmpty }

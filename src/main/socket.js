@@ -1,6 +1,8 @@
 import { showAlert } from './notification.js'
 import { w3cwebsocket as WebSocket } from 'websocket'
 let webSocket
+
+// TODO 소켓 로직 작성
 const init = () => {
     return new Promise((resolve, reject) => {
         const serverAddress = process.env.VUE_APP_SOCKET_ENDPOINT
@@ -9,7 +11,7 @@ const init = () => {
 
         webSocket.onopen = function () {
             console.log('WebSocket connection opened')
-            resolve(webSocket) // 연결이 성공하면 Promise를 해결(resolve)합니다.
+            resolve(webSocket)
         }
 
         webSocket.onmessage = function (event) {
