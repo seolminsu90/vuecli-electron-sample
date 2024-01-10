@@ -13,8 +13,11 @@
     },
     "main": "background.js",
     "dependencies": {
+        "axios": "^1.6.5",
         "core-js": "^3.8.3",
         "electron-unhandled": "^4.0.1",
+        "pinia": "^2.1.7",
+        "pinia-plugin-persistedstate": "^3.2.0",
         "vue": "^3.2.13",
         "vue-router": "^4.2.5",
         "websocket": "^1.0.34"

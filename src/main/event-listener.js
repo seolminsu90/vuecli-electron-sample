@@ -1,18 +1,24 @@
 import { ipcMain } from 'electron'
 import { init, send } from './socket.js'
+import { getSharedData, saveSharedData } from './file-data-share.js'
 
 // Render와 함께 정의한 임의의 이벤트를 받아서 처리해준다.
 const ipcEventListen = () => {
+    ipcMain.on('onCheckSavedAuth', async (evt, payload) => {
+        evt.reply('loadSavedAuth', getSharedData())
+    })
+
     ipcMain.on('onLoginSuccess', async (evt, payload) => {
         console.log(`on login success !! ${payload} `)
 
-        // Login 성공 시 MainApp에서 소켓 연결
-        // 유저 처리 및 소켓 연결
         await init()
-        send('로그인 성공', '반갑습니다.')
 
-        // (optional) CALLBACK to replyLoginSuccess
-        evt.reply('replyLoginSuccess', 'YOUR_SUCCESS_CALLBACK_DATA')
+        // TODO 기타기타 검증 프로세스
+
+        send('로그인 성공', '반갑습니다.')
+        saveSharedData('username', 'tester')
+
+        evt.reply('replyLoginSuccess', getSharedData())
     })
 
     ipcMain.on('onSendMessage', async (evt, payload) => {

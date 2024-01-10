@@ -1,4 +1,6 @@
 import { Menu } from 'electron'
+import { resetSharedData } from './file-data-share.js'
+
 const openDevToolsInNewWindow = (win) => {
     win.webContents.openDevTools({ mode: 'detach' })
 }
@@ -9,10 +11,20 @@ const useMenu = (win) => {
             label: '메뉴',
             submenu: [
                 {
-                    label: 'DevTool',
+                    label: '개발자도구 열기',
                     click: () => openDevToolsInNewWindow(win)
                 },
-                { role: 'quit' } // 정의된 메뉴 Role
+                {
+                    label: '로그아웃',
+                    click: () => {
+                        resetSharedData()
+                        win.webContents.send('onLogout')
+                    }
+                },
+                {
+                    label: '종료',
+                    role: 'quit'
+                }
             ]
         }
     ]

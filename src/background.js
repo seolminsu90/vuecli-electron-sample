@@ -37,7 +37,9 @@ const appEventListen = () => {
         if (process.platform !== 'darwin') app.quit()
     })
 
-    app.on('before-quit', () => (app.isQuiting = true))
+    app.on('before-quit', () => {
+        app.isQuiting = true
+    })
 
     if (isDevelopment) {
         if (process.platform === 'win32') {
